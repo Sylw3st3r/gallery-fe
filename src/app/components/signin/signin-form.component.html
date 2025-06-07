@@ -1,0 +1,17 @@
+<mat-card class="signin-card">
+  <form [formGroup]="signinForm" (ngSubmit)="onSubmit()">
+    <wired-input
+      [formControlName]="fileds.Email"
+      label="Email"
+      [validationMessages]="allValidationMessages[fileds.Email]"
+      type="email"
+    />
+    <wired-input
+      [formControlName]="fileds.Password"
+      label="Password"
+      [validationMessages]="allValidationMessages[fileds.Password]"
+      type="password"
+    />
+    <button mat-raised-button color="primary" type="submit">Sign Up</button>
+  </form>
+</mat-card>

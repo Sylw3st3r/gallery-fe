@@ -1,0 +1,16 @@
+<mat-form-field appearance="outline" class="full-width">
+  <mat-label>{{ label }}</mat-label>
+  @if (formControl) {
+    <input
+      matInput
+      [type]="type"
+      [formControl]="formControl"
+      (input)="onInput($event)"
+      (blur)="onTouched()"
+    />
+  }
+
+  @if (controler?.invalid && (controler?.dirty || controler?.touched)) {
+    <mat-error>{{ errorMessage }}</mat-error>
+  }
+</mat-form-field>
