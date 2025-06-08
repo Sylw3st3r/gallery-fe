@@ -1,23 +1,17 @@
 import { Component } from '@angular/core';
-import {
-  ReactiveFormsModule,
-  FormBuilder,
-  FormGroup,
-  FormControl,
-} from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { WiredInputComponent } from '../wired-input/wired-input.component';
-import {
-  signInFormConfig,
-  signInValidationMessages,
-} from './signin-form-validation';
-import { ValidationMessages } from '../../types/form-validation.types';
-import { SignInPayloadKeys } from '../../services/signin-payload.interface';
+import { SignIn, SignInFields } from '../../services/signin.model';
 import { AuthService } from '../../services/auth.service';
+import {
+  RxReactiveFormsModule,
+  RxFormBuilder,
+} from '@rxweb/reactive-form-validators';
 
 type SignInForm = FormGroup<{
-  [key in SignInPayloadKeys]: FormControl<string>;
+  [key in SignInFields]: FormControl<string>;
 }>;
 
 @Component({
@@ -25,6 +19,7 @@ type SignInForm = FormGroup<{
   templateUrl: './signin-form.component.html',
   styleUrls: ['./signin-form.component.scss'],
   imports: [
+    RxReactiveFormsModule,
     ReactiveFormsModule,
     WiredInputComponent,
     MatButtonModule,
@@ -32,16 +27,14 @@ type SignInForm = FormGroup<{
   ],
 })
 export class SigninFormComponent {
-  public readonly allValidationMessages: ValidationMessages<SignInPayloadKeys> =
-    signInValidationMessages;
-
   public signinForm: SignInForm;
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: RxFormBuilder,
     private readonly _authService: AuthService,
   ) {
-    this.signinForm = this.formBuilder.group(signInFormConfig) as SignInForm;
+    const signIn = new SignIn();
+    this.signinForm = this.formBuilder.formGroup(signIn) as SignInForm;
   }
 
   onSubmit() {

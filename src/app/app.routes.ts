@@ -11,19 +11,51 @@ import { authGuard } from './guards/auth.guard';
 export const routes: Routes = [
   {
     path: '',
-    component: AuthLayoutComponent,
+    loadComponent: () =>
+      import('./components/auth-layout/auth-layout.component').then(
+        (m) => m.AuthLayoutComponent,
+      ),
     canActivateChild: [unauthorizedGuard],
     children: [
-      { path: '', component: WelcomeComponent },
-      { path: 'signin', component: SigninFormComponent },
-      { path: 'signup', component: SignupFormComponent },
+      {
+        path: '',
+        loadComponent: () =>
+          import('./components/welcome/welcome.component').then(
+            (m) => m.WelcomeComponent,
+          ),
+      },
+      {
+        path: 'signin',
+        loadComponent: () =>
+          import('./components/signin/signin-form.component').then(
+            (m) => m.SigninFormComponent,
+          ),
+      },
+      {
+        path: 'signup',
+        loadComponent: () =>
+          import('./components/signup/signup-form.component').then(
+            (m) => m.SignupFormComponent,
+          ),
+      },
     ],
   },
   {
     path: '',
-    component: MainLayoutComponent,
+    loadComponent: () =>
+      import('./components/main-layout/main-layout.component').then(
+        (m) => m.MainLayoutComponent,
+      ),
     canActivateChild: [authGuard],
-    children: [{ path: 'dashboard', component: DashboardComponent }],
+    children: [
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./components/dashboard/dashboard.component').then(
+            (m) => m.DashboardComponent,
+          ),
+      },
+    ],
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

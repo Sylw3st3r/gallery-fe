@@ -15,6 +15,7 @@ import {
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -28,14 +29,18 @@ import { FormControl } from '@angular/forms';
       multi: true,
     },
   ],
-  imports: [ReactiveFormsModule, MatInputModule, MatFormFieldModule],
+  imports: [
+    ReactiveFormsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatTooltipModule,
+  ],
   standalone: true,
 })
 export class WiredInputComponent implements ControlValueAccessor, OnInit {
   @Input({ required: true }) label!: string;
   @Input() type: string = 'text';
   @Input() placeholder: string = '';
-  @Input({ required: true }) validationMessages!: Record<string, string>;
 
   controler?: NgControl;
 
@@ -65,7 +70,7 @@ export class WiredInputComponent implements ControlValueAccessor, OnInit {
 
   // These methods are required by ControlValueAccessor interface,
   // but we don't manage value manually anymore
-  writeValue(value: any): void {
+  writeValue(_: any): void {
     // No need to track manually as input uses [formControl]
   }
 
@@ -90,7 +95,7 @@ export class WiredInputComponent implements ControlValueAccessor, OnInit {
     const errors = this.controler?.control?.errors;
     if (!errors) return null;
 
-    const message = this.validationMessages[Object.keys(errors)[0]];
+    const message = errors[Object.keys(errors)[0]].message;
 
     return message || `Invalid ${this.label}`;
   }

@@ -1,30 +1,11 @@
 <mat-card class="signup-card">
   <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-    <wired-input
-      formControlName="firstName"
-      [validationMessages]="allSignUpValidationMessages['firstName']"
-      label="First Name"
-    />
-    <wired-input
-      formControlName="lastName"
-      [validationMessages]="allSignUpValidationMessages['lastName']"
-      label="Last Name"
-    />
-    <wired-input
-      formControlName="email"
-      [validationMessages]="allSignUpValidationMessages['email']"
-      label="Email"
-      type="email"
-    />
-    <wired-input
-      formControlName="password"
-      [validationMessages]="allSignUpValidationMessages['password']"
-      label="Passowrd"
-      type="password"
-    />
+    <wired-input formControlName="firstName" label="First Name" />
+    <wired-input formControlName="lastName" label="Last Name" />
+    <wired-input formControlName="email" label="Email" type="email" />
+    <wired-input formControlName="password" label="Password" type="password" />
     <wired-input
       formControlName="confirmPassword"
-      [validationMessages]="allSignUpValidationMessages['confirmPassword']"
       label="Confirm Password"
       type="password"
     />

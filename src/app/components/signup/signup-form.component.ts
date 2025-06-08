@@ -8,16 +8,15 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { WiredInputComponent } from '../wired-input/wired-input.component';
-import {
-  signUpFormConfig,
-  signUpValidationMessages,
-} from './signup-form-validation';
-import { ValidationMessages } from '../../types/form-validation.types';
-import { SignUpPayloadKeys } from '../../services/signup-payload.interface';
 import { AuthService } from '../../services/auth.service';
+import { SignUp, SignUpFields } from '../../services/signup.interface';
+import {
+  RxReactiveFormsModule,
+  RxFormBuilder,
+} from '@rxweb/reactive-form-validators';
 
 type SignUpForm = FormGroup<{
-  [key in SignUpPayloadKeys]: FormControl<string>;
+  [key in SignUpFields]: FormControl<string>;
 }>;
 
 @Component({
@@ -25,6 +24,7 @@ type SignUpForm = FormGroup<{
   templateUrl: './signup-form.component.html',
   styleUrls: ['./signup-form.component.css'],
   imports: [
+    RxReactiveFormsModule,
     ReactiveFormsModule,
     WiredInputComponent,
     MatButtonModule,
@@ -32,16 +32,14 @@ type SignUpForm = FormGroup<{
   ],
 })
 export class SignupFormComponent {
-  public readonly allSignUpValidationMessages: ValidationMessages<SignUpPayloadKeys> =
-    signUpValidationMessages;
-
   signupForm: SignUpForm;
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: RxFormBuilder,
     private readonly _authService: AuthService,
   ) {
-    this.signupForm = this.formBuilder.group(signUpFormConfig) as SignUpForm;
+    const signUp = new SignUp();
+    this.signupForm = this.formBuilder.formGroup(signUp) as SignUpForm;
   }
 
   onSubmit() {
