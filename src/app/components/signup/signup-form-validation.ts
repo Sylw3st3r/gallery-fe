@@ -3,40 +3,34 @@ import {
   FormConfig,
   ValidationMessages,
 } from '../../types/form-validation.types';
-import { SignUpFields } from './signup.enum';
+import { SignUpPayloadKeys } from '../../services/signup-payload.interface';
 
-export const signUpFormConfig: FormConfig<SignUpFields> = {
-  [SignUpFields.FirstName]: [
-    '',
-    [Validators.required, Validators.minLength(2)],
-  ],
-  [SignUpFields.LastName]: ['', [Validators.required, Validators.minLength(2)]],
-  [SignUpFields.Email]: ['', [Validators.required, Validators.email]],
-  [SignUpFields.Password]: ['', [Validators.required, Validators.minLength(6)]],
-  [SignUpFields.ConfirmPassword]: [
-    '',
-    [Validators.required, Validators.minLength(6)],
-  ],
+export const signUpFormConfig: FormConfig<SignUpPayloadKeys> = {
+  firstName: ['', [Validators.required, Validators.minLength(2)]],
+  lastName: ['', [Validators.required, Validators.minLength(2)]],
+  email: ['', [Validators.required, Validators.email]],
+  password: ['', [Validators.required, Validators.minLength(6)]],
+  confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
 };
 
-export const signUpValidationMessages: ValidationMessages<SignUpFields> = {
-  [SignUpFields.FirstName]: {
+export const signUpValidationMessages: ValidationMessages<SignUpPayloadKeys> = {
+  firstName: {
     required: 'First name is required',
     minlength: 'First name must be at least 2 characters long',
   },
-  [SignUpFields.LastName]: {
+  lastName: {
     required: 'Last name is required',
     minlength: 'Last name must be at least 2 characters long',
   },
-  [SignUpFields.Email]: {
+  email: {
     required: 'Email is required',
     email: 'Email is not valid',
   },
-  [SignUpFields.Password]: {
+  password: {
     required: 'Password is required',
     minlength: 'Password must be at least 6 characters long',
   },
-  [SignUpFields.ConfirmPassword]: {
+  confirmPassword: {
     required: 'Confirm password is required',
     minlength: 'Confirm password must be at least 6 characters long',
   },

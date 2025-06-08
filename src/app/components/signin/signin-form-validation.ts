@@ -3,19 +3,19 @@ import {
   FormConfig,
   ValidationMessages,
 } from '../../types/form-validation.types';
-import { SignInFiedls } from './signin.enum';
+import { SignInPayloadKeys } from '../../services/signin-payload.interface';
 
-export const signInFormConfig: FormConfig<SignInFiedls> = {
-  [SignInFiedls.Email]: ['', [Validators.required, Validators.email]],
-  [SignInFiedls.Password]: ['', [Validators.required, Validators.minLength(6)]],
+export const signInFormConfig: FormConfig<SignInPayloadKeys> = {
+  email: ['', [Validators.required, Validators.email]],
+  password: ['', [Validators.required, Validators.minLength(6)]],
 };
 
-export const signInValidationMessages: ValidationMessages<SignInFiedls> = {
-  [SignInFiedls.Email]: {
+export const signInValidationMessages: ValidationMessages<SignInPayloadKeys> = {
+  email: {
     required: 'Email is required',
     email: 'Email is not valid',
   },
-  [SignInFiedls.Password]: {
+  password: {
     required: 'Password is required',
     minlength: 'Password must be at least 6 characters long',
   },

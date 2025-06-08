@@ -3,19 +3,22 @@ import {
   ReactiveFormsModule,
   FormBuilder,
   FormGroup,
-  Validators,
+  FormControl,
 } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { SignUpFields } from './signup.enum';
 import { WiredInputComponent } from '../wired-input/wired-input.component';
 import {
   signUpFormConfig,
   signUpValidationMessages,
 } from './signup-form-validation';
 import { ValidationMessages } from '../../types/form-validation.types';
+import { SignUpPayloadKeys } from '../../services/signup-payload.interface';
+import { AuthService } from '../../services/auth.service';
+
+type SignUpForm = FormGroup<{
+  [key in SignUpPayloadKeys]: FormControl<string>;
+}>;
 
 @Component({
   selector: 'signup-form',
@@ -29,23 +32,21 @@ import { ValidationMessages } from '../../types/form-validation.types';
   ],
 })
 export class SignupFormComponent {
-  // Using a constant for field names to avoid typos and ensure consistency
-  // This helps maintain consistency across the application and makes it easier to refactor if needed.
-  // It also improves code readability by providing a single source of truth for field names.
-  public readonly fields: typeof SignUpFields = SignUpFields;
-
-  public readonly allSignUpValidationMessages: ValidationMessages<SignUpFields> =
+  public readonly allSignUpValidationMessages: ValidationMessages<SignUpPayloadKeys> =
     signUpValidationMessages;
 
-  signupForm: FormGroup;
+  signupForm: SignUpForm;
 
-  constructor(private readonly formBuilder: FormBuilder) {
-    this.signupForm = this.formBuilder.group(signUpFormConfig);
+  constructor(
+    private readonly formBuilder: FormBuilder,
+    private readonly _authService: AuthService,
+  ) {
+    this.signupForm = this.formBuilder.group(signUpFormConfig) as SignUpForm;
   }
 
   onSubmit() {
     if (this.signupForm.valid) {
-      console.log(this.signupForm.value);
+      this._authService.signUp(this.signupForm.getRawValue());
     } else {
       this.signupForm.markAllAsTouched(); // show errors
     }
