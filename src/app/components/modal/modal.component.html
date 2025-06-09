@@ -1,0 +1,7 @@
+<div class="modal-backdrop" (click)="backdropClick$.emit()"></div>
+
+<div class="modal-container" (click)="$event.stopPropagation()">
+  <h2>{{ header }}</h2>
+
+  <ng-content></ng-content>
+</div>

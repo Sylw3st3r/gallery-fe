@@ -1,0 +1,33 @@
+<!-- Hidden file input, triggered by the button -->
+<input
+  type="file"
+  accept="image/*"
+  (change)="fileChangeEvent($event)"
+  [disabled]="disabled"
+  hidden
+  #fileInput
+/>
+
+<!-- Button to trigger file select dialog -->
+<button
+  mat-icon-button
+  matSuffix
+  aria-label="Select image"
+  [disabled]="disabled"
+  (click)="fileInput.click()"
+>
+  <mat-icon>upload</mat-icon>
+</button>
+
+@if (croppedImage) {
+  <img
+    [src]="croppedImage"
+    alt="Cropped Image Preview"
+    style="
+      display: block;
+      max-width: 100%;
+      margin-top: 1rem;
+      border-radius: 4px;
+    "
+  />
+}

@@ -1,4 +1,5 @@
-import { email, password, required } from '@rxweb/reactive-form-validators';
+import { required } from '@rxweb/reactive-form-validators';
+import { KeysOf, Reveal } from './utils.type';
 
 export class SignIn {
   @required({ message: 'Email is required' })
@@ -12,8 +13,4 @@ export interface ISignInResposne {
   token: string;
 }
 
-type KeysOf<T> = keyof T;
-
-type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never;
-
-export type SignInFields = Expand<KeysOf<SignIn>>;
+export type SignInFields = Reveal<KeysOf<SignIn>>;

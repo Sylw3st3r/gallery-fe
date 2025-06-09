@@ -4,6 +4,7 @@ import {
   password,
   required,
 } from '@rxweb/reactive-form-validators';
+import { KeysOf, Reveal } from './utils.type';
 
 export class SignUp {
   @required({ message: 'First Name is required' })
@@ -37,8 +38,4 @@ export class SignUp {
   public confirmPassword: string = '';
 }
 
-type KeysOf<T> = keyof T;
-
-type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never;
-
-export type SignUpFields = Expand<KeysOf<SignUp>>;
+export type SignUpFields = Reveal<KeysOf<SignUp>>;

@@ -1,42 +1,12 @@
 <mat-sidenav-container class="layout-container">
   <!-- Sidebar -->
-  <mat-sidenav
-    mode="side"
-    opened
-    [style.width.px]="isExpanded ? expandedWidth : collapsedWidth"
-    class="sidenav mat-elevation-z4"
-    disableClose
-  >
-    <!-- Toggle Button -->
-    <div
-      class="toggle-container"
-      (click)="toggleSidebar()"
-      tabindex="0"
-      role="button"
-      aria-label="Toggle sidebar"
-    >
-      <mat-icon>{{ isExpanded ? "chevron_left" : "chevron_right" }}</mat-icon>
-    </div>
-
+  <mat-sidenav mode="side" opened class="sidenav mat-elevation-z4" disableClose>
     <!-- Navigation Items -->
     <mat-nav-list class="nav-list">
       @for (link of links; track $index) {
-        <button
-          mat-button
-          class="sidebar-button"
-          [routerLink]="link.path"
-          matTooltip="{{ !isExpanded ? link.label : '' }}"
-          matTooltipPosition="right"
-          matTooltipShowDelay="300"
-        >
-          <mat-icon
-            class="sidebar-icon"
-            [ngClass]="{ 'centered-icon': !isExpanded }"
-            >{{ link.icon }}</mat-icon
-          >
-          @if (isExpanded) {
-            <span class="link-label">{{ link.label }}</span>
-          }
+        <button mat-button class="sidebar-button" [routerLink]="link.path">
+          <mat-icon class="sidebar-icon">{{ link.icon }}</mat-icon>
+          <span class="link-label">{{ link.label }}</span>
         </button>
       }
     </mat-nav-list>

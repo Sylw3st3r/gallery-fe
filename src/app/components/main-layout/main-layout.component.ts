@@ -14,31 +14,20 @@ import { NgClass } from '@angular/common';
   templateUrl: './main-layout.component.html',
   styleUrls: ['./main-layout.component.scss'],
   imports: [
-    NgClass,
     RouterOutlet,
     MatSidenavModule,
     MatIconModule,
     MatButtonModule,
     MatListModule,
     MatToolbarModule,
-    MatTooltip,
     RouterLink,
   ],
 })
 export class MainLayoutComponent {
-  isExpanded = true;
-
-  expandedWidth = 240;
-  collapsedWidth = 72;
-
   links = [
     { icon: 'dashboard', label: 'Dashboard', path: '#' },
     { icon: 'person', label: 'Profile', path: '#' },
     { icon: 'settings', label: 'Settings', path: '#' },
     { icon: 'logout', label: 'Logout', path: '#' },
   ];
-
-  toggleSidebar() {
-    this.isExpanded = !this.isExpanded;
-  }
 }
