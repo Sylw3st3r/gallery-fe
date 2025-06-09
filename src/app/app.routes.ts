@@ -7,6 +7,7 @@ import { MainLayoutComponent } from './components/main-layout/main-layout.compon
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { unauthorizedGuard } from './guards/unauthorized.guard';
 import { authGuard } from './guards/auth.guard';
+import { GalleryResolver } from './resolvers/gallery-items.resolver';
 
 export const routes: Routes = [
   {
@@ -50,6 +51,10 @@ export const routes: Routes = [
     children: [
       {
         path: 'dashboard',
+        resolve: {
+          [GalleryResolver.Key]: GalleryResolver,
+        },
+        runGuardsAndResolvers: 'paramsOrQueryParamsChange',
         loadComponent: () =>
           import('./components/dashboard/dashboard.component').then(
             (m) => m.DashboardComponent,

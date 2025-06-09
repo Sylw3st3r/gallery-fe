@@ -11,6 +11,7 @@ import {
   GalleryItemFields,
 } from '../../services/gallery-item.model';
 import { WiredImageUploadComponent } from '../wired-image-upload/wired-image-upload.component';
+import { GalleryItemsRepo } from '../../repos/gallery-items.repo';
 
 type GalleryItemForm = FormGroup<{
   [key in GalleryItemFields]: key extends 'image'
@@ -33,7 +34,10 @@ type GalleryItemForm = FormGroup<{
 export class GalleryItemFormComponent {
   public galleryItemForm: GalleryItemForm;
 
-  constructor(private readonly formBuilder: RxFormBuilder) {
+  constructor(
+    private readonly formBuilder: RxFormBuilder,
+    private readonly _galleryItemsRepo: GalleryItemsRepo,
+  ) {
     const galleryItem = new GalleryItem();
     this.galleryItemForm = this.formBuilder.formGroup(
       galleryItem,
@@ -42,9 +46,9 @@ export class GalleryItemFormComponent {
 
   onSubmit() {
     if (this.galleryItemForm.valid) {
-      console.log(this.galleryItemForm.getRawValue());
+      this._galleryItemsRepo.create(this.galleryItemForm.getRawValue());
     } else {
-      this.galleryItemForm.markAllAsTouched(); // show errors
+      this.galleryItemForm.markAllAsTouched();
     }
   }
 }

@@ -17,13 +17,17 @@ export interface DecodedToken {
 export class AuthService {
   private readonly TOKEN_KEY = 'auth_token';
 
-  private token: string | null = null;
+  private _token: string | null = null;
 
   constructor(
     private http: HttpClient,
     private readonly _router: Router,
   ) {
     this.initializeToken();
+  }
+
+  get token(): string | null {
+    return this._token;
   }
 
   decodeToken(token: string): DecodedToken | null {
@@ -46,12 +50,12 @@ export class AuthService {
   initializeToken() {
     const token = localStorage.getItem(this.TOKEN_KEY);
     if (!token || this.isTokenExpired(token)) return;
-    this.token = token;
+    this._token = token;
   }
 
   // Check if user is authenticated
   isAuthenticated(): boolean {
-    return !!this.token && !this.isTokenExpired(this.token);
+    return !!this._token && !this.isTokenExpired(this._token);
   }
 
   public signUp(signUpPayload: SignUp) {
@@ -72,8 +76,8 @@ export class AuthService {
       .post<ISignInResposne>('http://localhost:5062/api/auth/signin', signIn)
       .subscribe({
         next: (response) => {
-          this.token = response.token;
-          localStorage.setItem(this.TOKEN_KEY, this.token);
+          this._token = response.token;
+          localStorage.setItem(this.TOKEN_KEY, this._token);
           this._router.navigate(['dashboard']);
         },
         error: (error) => {
@@ -83,7 +87,7 @@ export class AuthService {
   }
 
   public signOut() {
-    this.token = null;
+    this._token = null;
     localStorage.removeItem(this.TOKEN_KEY);
     this._router.navigate(['']);
   }

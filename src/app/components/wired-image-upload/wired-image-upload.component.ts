@@ -84,7 +84,7 @@ export class WiredImageUploadComponent implements ControlValueAccessor, OnInit {
         const file = new File([croppedBlob], 'croppedImage.png', {
           type: 'image/png',
         });
-        this.controler?.control?.patchValue({ image: file });
+        this.controler?.control?.patchValue(file);
         this.controler?.control?.get('image')?.updateValueAndValidity();
 
         this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(

@@ -10,5 +10,5 @@ export const unauthorizedGuard: CanActivateChildFn = (_1, _2) => {
     return true;
   }
 
-  return router.navigate(['dashboard']); // redirect if authorized
+  return router.navigate(['dashboard']);
 };

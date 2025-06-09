@@ -1,3 +1,72 @@
-<p>Dashboard</p>
-<button mat-button (click)="addGalleryItem()"></button>
-<router-outlet>Add</router-outlet>
+<form class="dashboard-form">
+  <div>
+    <label for="search">Search</label>
+    <input
+      id="search"
+      type="text"
+      [ngModel]="search"
+      (ngModelChange)="onSearchChanged($event)"
+      placeholder="Search..."
+      [ngModelOptions]="{ standalone: true }"
+    />
+  </div>
+
+  <div class="spacer"></div>
+
+  <button class="btn-primary" (click)="addGalleryItem()">Add Item</button>
+
+  <div class="spacer"></div>
+
+  <div>
+    <label for="page">Page</label>
+    <select
+      id="page"
+      [(ngModel)]="page"
+      (change)="updateQueryParams()"
+      [ngModelOptions]="{ standalone: true }"
+    >
+      <ng-container *ngIf="pageOptions$ | async as pageOptions">
+        @for (p of pageOptions; track $index) {
+          <option [value]="p">{{ p }}</option>
+        }
+      </ng-container>
+    </select>
+  </div>
+
+  <div>
+    <label for="limit">Limit</label>
+    <select
+      id="limit"
+      [(ngModel)]="limit"
+      (change)="onLimitChanges()"
+      [ngModelOptions]="{ standalone: true }"
+    >
+      @for (l of limitOptions; track $index) {
+        <option [value]="l">{{ l }}</option>
+      }
+    </select>
+  </div>
+</form>
+
+<div class="gallery-grid">
+  <ng-container *ngIf="items$ | async as items">
+    <mat-card
+      *ngFor="let item of items; trackBy: trackByFn"
+      class="gallery-card"
+    >
+      <mat-card-header>
+        <mat-card-title>{{ item.name }}</mat-card-title>
+      </mat-card-header>
+      <img
+        mat-card-image
+        [src]="'http://localhost:5062/' + item.image"
+        alt="{{ item.name }}"
+      />
+      <mat-card-content>
+        <p>{{ item.description }}</p>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+</div>
+
+<router-outlet></router-outlet>

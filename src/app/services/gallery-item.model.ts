@@ -9,11 +9,7 @@ export class GalleryItem {
   public description: string = '';
 
   @required({ message: 'Image is required' })
-  public image?: File;
-}
-
-export interface ISignInResposne {
-  token: string;
+  public image!: File;
 }
 
 export type GalleryItemFields = Reveal<KeysOf<GalleryItem>>;
