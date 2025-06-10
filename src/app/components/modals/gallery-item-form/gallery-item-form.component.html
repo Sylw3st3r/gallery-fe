@@ -1,0 +1,9 @@
+<modal (backdrop-click)="onClose()">
+  <form [formGroup]="galleryItemForm" (ngSubmit)="onSubmit()">
+    <wired-input formControlName="name" label="Name" />
+    <wired-input formControlName="description" label="Description" />
+    <wired-image-upload formControlName="image" />
+    <button type="submit">Submit</button>
+    <button type="button" (click)="onClose()">Close</button>
+  </form>
+</modal>

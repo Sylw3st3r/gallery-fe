@@ -6,6 +6,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { GalleryItemsRepo } from '../repos/gallery-items.repo';
+import { IGalleryItemsPayload } from '../models/gallery-items.payload.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class GalleryResolver implements Resolve<any> {
   resolve(
     route: ActivatedRouteSnapshot,
     _: RouterStateSnapshot,
-  ): Observable<any> {
+  ): Observable<IGalleryItemsPayload> {
     const page = route.queryParamMap.get('page') ?? '1';
     const search = route.queryParamMap.get('search') ?? '';
     const limit = route.queryParamMap.get('limit') ?? '20';

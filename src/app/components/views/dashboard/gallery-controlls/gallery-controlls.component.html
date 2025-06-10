@@ -1,0 +1,60 @@
+<ng-container *ngIf="{ disabled: (disabled$ | async) === true } as data">
+  <form class="dashboard-form">
+    <div>
+      <label for="search">Search</label>
+      <input
+        id="search"
+        type="text"
+        [ngModel]="search"
+        [disabled]="data.disabled"
+        (ngModelChange)="onSearchChanged($event)"
+        placeholder="Search..."
+        [ngModelOptions]="{ standalone: true }"
+      />
+    </div>
+
+    <div class="spacer"></div>
+
+    <button
+      class="btn-primary"
+      [disabled]="data.disabled"
+      (click)="addGalleryItem()"
+    >
+      Add Item
+    </button>
+
+    <div class="spacer"></div>
+
+    <div>
+      <label for="page">Page</label>
+      <select
+        id="page"
+        [(ngModel)]="page"
+        (change)="updateQueryParams()"
+        [ngModelOptions]="{ standalone: true }"
+        [disabled]="data.disabled"
+      >
+        <ng-container *ngIf="pageOptions$ | async as pageOptions">
+          @for (p of pageOptions; track $index) {
+            <option [value]="p">{{ p }}</option>
+          }
+        </ng-container>
+      </select>
+    </div>
+
+    <div>
+      <label for="limit">Limit</label>
+      <select
+        id="limit"
+        [(ngModel)]="limit"
+        (change)="onLimitChanges()"
+        [ngModelOptions]="{ standalone: true }"
+        [disabled]="data.disabled"
+      >
+        @for (l of limitOptions; track $index) {
+          <option [value]="l">{{ l }}</option>
+        }
+      </select>
+    </div>
+  </form>
+</ng-container>

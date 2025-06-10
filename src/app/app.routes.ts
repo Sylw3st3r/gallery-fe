@@ -1,10 +1,4 @@
 import { Routes } from '@angular/router';
-import { SignupFormComponent } from './components/signup/signup-form.component';
-import { SigninFormComponent } from './components/signin/signin-form.component';
-import { WelcomeComponent } from './components/welcome/welcome.component';
-import { AuthLayoutComponent } from './components/auth-layout/auth-layout.component';
-import { MainLayoutComponent } from './components/main-layout/main-layout.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { unauthorizedGuard } from './guards/unauthorized.guard';
 import { authGuard } from './guards/auth.guard';
 import { GalleryResolver } from './resolvers/gallery-items.resolver';
@@ -13,7 +7,7 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./components/auth-layout/auth-layout.component').then(
+      import('./components/layouts/auth-layout/auth-layout.component').then(
         (m) => m.AuthLayoutComponent,
       ),
     canActivateChild: [unauthorizedGuard],
@@ -21,21 +15,21 @@ export const routes: Routes = [
       {
         path: '',
         loadComponent: () =>
-          import('./components/welcome/welcome.component').then(
+          import('./components/views/welcome/welcome.component').then(
             (m) => m.WelcomeComponent,
           ),
       },
       {
         path: 'signin',
         loadComponent: () =>
-          import('./components/signin/signin-form.component').then(
+          import('./components/views/signin/signin-form.component').then(
             (m) => m.SigninFormComponent,
           ),
       },
       {
         path: 'signup',
         loadComponent: () =>
-          import('./components/signup/signup-form.component').then(
+          import('./components/views/signup/signup-form.component').then(
             (m) => m.SignupFormComponent,
           ),
       },
@@ -44,7 +38,7 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./components/main-layout/main-layout.component').then(
+      import('./components/layouts/main-layout/main-layout.component').then(
         (m) => m.MainLayoutComponent,
       ),
     canActivateChild: [authGuard],
@@ -56,15 +50,17 @@ export const routes: Routes = [
         },
         runGuardsAndResolvers: 'paramsOrQueryParamsChange',
         loadComponent: () =>
-          import('./components/dashboard/dashboard.component').then(
+          import('./components/views/dashboard/dashboard.component').then(
             (m) => m.DashboardComponent,
           ),
         children: [
           {
             path: 'add',
+            // Added this property to prevent parent resolvers from running
+            runGuardsAndResolvers: 'pathParamsChange',
             loadComponent: () =>
               import(
-                './components/gallery-item-form/gallery-item-form.component'
+                './components/modals/gallery-item-form/gallery-item-form.component'
               ).then((m) => m.GalleryItemFormComponent),
           },
         ],

@@ -1,0 +1,16 @@
+<mat-progress-bar
+  *ngIf="loading$ | async"
+  mode="indeterminate"
+></mat-progress-bar>
+<mat-toolbar color="primary" class="toolbar">
+  @for (link of links; track $index) {
+    <button mat-button routerLinkActive="mat-accent" [routerLink]="link.path">
+      {{ link.label }}
+    </button>
+  }
+  <div class="spacer"></div>
+  <button mat-button (click)="signOut()">Sign Out</button>
+</mat-toolbar>
+<div class="content">
+  <router-outlet />
+</div>

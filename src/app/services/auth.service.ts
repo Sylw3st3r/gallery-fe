@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ISignInResposne, SignIn } from './signin.model';
 import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
-import { SignUp } from './signup.interface';
+import { SignUpPayload } from '../models/signup-payload.model';
+import { ISignInResposne, SignInPayload } from '../models/signin-payload.model';
 
 export interface DecodedToken {
   exp: number;
@@ -58,7 +58,7 @@ export class AuthService {
     return !!this._token && !this.isTokenExpired(this._token);
   }
 
-  public signUp(signUpPayload: SignUp) {
+  public signUp(signUpPayload: SignUpPayload) {
     this.http
       .post('http://localhost:5062/api/auth/signup', signUpPayload)
       .subscribe({
@@ -71,7 +71,7 @@ export class AuthService {
       });
   }
 
-  public signIn(signIn: SignIn) {
+  public signIn(signIn: SignInPayload) {
     this.http
       .post<ISignInResposne>('http://localhost:5062/api/auth/signin', signIn)
       .subscribe({

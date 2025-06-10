@@ -1,0 +1,33 @@
+.dashboard-form {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.dashboard-form label {
+  font-weight: 600;
+  margin-right: 0.25rem;
+}
+
+.dashboard-form input[type="text"],
+.dashboard-form select {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  min-width: 100px;
+  transition: border-color 0.3s ease;
+}
+
+.dashboard-form input[type="text"]:focus,
+.dashboard-form select:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
