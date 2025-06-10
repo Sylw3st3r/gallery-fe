@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { unauthorizedGuard } from './guards/unauthorized.guard';
 import { authGuard } from './guards/auth.guard';
-import { GalleryResolver } from './resolvers/gallery-items.resolver';
 
 export const routes: Routes = [
   {
@@ -45,9 +44,6 @@ export const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        resolve: {
-          [GalleryResolver.Key]: GalleryResolver,
-        },
         runGuardsAndResolvers: 'paramsOrQueryParamsChange',
         loadComponent: () =>
           import('./components/views/dashboard/dashboard.component').then(
@@ -56,8 +52,6 @@ export const routes: Routes = [
         children: [
           {
             path: 'add',
-            // Added this property to prevent parent resolvers from running
-            runGuardsAndResolvers: 'pathParamsChange',
             loadComponent: () =>
               import(
                 './components/modals/gallery-item-form/gallery-item-form.component'

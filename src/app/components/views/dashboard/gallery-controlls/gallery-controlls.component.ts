@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { map, Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { GalleryResolver } from '../../../../resolvers/gallery-items.resolver';
 import { GalleryItemsRepo } from '../../../../repos/gallery-items.repo';
 import { LoadingService } from '../../../../services/loading.service';
 
@@ -16,7 +15,8 @@ import { LoadingService } from '../../../../services/loading.service';
   providers: [GalleryItemsRepo, RxFormBuilder],
 })
 export class GalleryControllsComponent implements OnInit {
-  pageOptions$: Observable<number[]>;
+  @Input({ required: true })
+  public totalPages!: number;
 
   public disabled$: Observable<boolean>;
 
@@ -24,7 +24,6 @@ export class GalleryControllsComponent implements OnInit {
   page: number = 1;
   limit: number = 10;
 
-  pageOptions = [];
   limitOptions = [5, 10, 20, 50];
 
   private searchDebounceTimeout?: number;
@@ -35,14 +34,6 @@ export class GalleryControllsComponent implements OnInit {
     private loadingService: LoadingService,
   ) {
     this.disabled$ = this.loadingService.loading$;
-
-    this.pageOptions$ = this.route.data.pipe(
-      map((data) => data[GalleryResolver.Key]),
-      map((data) => {
-        const totalPages = data?.totalPages ?? 1;
-        return Array.from({ length: totalPages }, (_, i) => i + 1);
-      }),
-    );
   }
 
   ngOnInit() {
@@ -88,5 +79,9 @@ export class GalleryControllsComponent implements OnInit {
 
   trackByFn(index: number, item: any): any {
     return item.id || index;
+  }
+
+  get pageOptions(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 }

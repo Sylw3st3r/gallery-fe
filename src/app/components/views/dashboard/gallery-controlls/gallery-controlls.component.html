@@ -34,11 +34,9 @@
         [ngModelOptions]="{ standalone: true }"
         [disabled]="data.disabled"
       >
-        <ng-container *ngIf="pageOptions$ | async as pageOptions">
-          @for (p of pageOptions; track $index) {
-            <option [value]="p">{{ p }}</option>
-          }
-        </ng-container>
+        @for (p of pageOptions; track $index) {
+          <option [value]="p">{{ p }}</option>
+        }
       </select>
     </div>
 

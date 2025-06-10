@@ -1,3 +1,5 @@
-<app-gallery-controlls />
-<app-gallery />
+<ng-container *ngIf="{ data: data$ | async } as payload">
+  <app-gallery-controlls [totalPages]="payload.data?.totalPages || 1" />
+  <app-gallery [items]="payload.data?.items || []" />
+</ng-container>
 <router-outlet></router-outlet>

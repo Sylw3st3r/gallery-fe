@@ -10,28 +10,24 @@ import { IGalleryItemsPayload } from '../models/gallery-items.payload.interface'
 export class GalleryItemsRepo {
   constructor(private http: HttpClient) {}
 
-  public create(galleryItemPayload: CreateGalleryItemPayload) {
+  public create(
+    galleryItemPayload: CreateGalleryItemPayload,
+  ): Observable<unknown> {
     const formData = new FormData();
     formData.append('name', galleryItemPayload.name);
     formData.append('description', galleryItemPayload.description);
     formData.append('image', galleryItemPayload.image);
 
-    this.http
-      .post('http://localhost:5062/api/gallery-items', formData)
-      .subscribe({
-        next: (response) => {
-          console.log('Added successfully', response);
-        },
-        error: (error) => {
-          console.error('Sign up failed', error);
-        },
-      });
+    return this.http.post<unknown>(
+      'http://localhost:5062/api/gallery-items',
+      formData,
+    );
   }
 
   public getAll(
     search: string,
-    page: string,
-    limit: string,
+    page: number,
+    limit: number,
   ): Observable<IGalleryItemsPayload> {
     return this.http.get<IGalleryItemsPayload>(
       'http://localhost:5062/api/gallery-items',

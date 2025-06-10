@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { GalleryItemsRepo } from '../../../../repos/gallery-items.repo';
@@ -8,9 +8,6 @@ import {
   MatCardHeader,
   MatCardTitle,
 } from '@angular/material/card';
-import { map, Observable } from 'rxjs';
-import { GalleryResolver } from '../../../../resolvers/gallery-items.resolver';
-import { ActivatedRoute } from '@angular/router';
 import { IGalleryItem } from '../../../../models/gallery-items.payload.interface';
 
 @Component({
@@ -28,14 +25,8 @@ import { IGalleryItem } from '../../../../models/gallery-items.payload.interface
   providers: [GalleryItemsRepo],
 })
 export class GalleryComponent {
-  items$: Observable<IGalleryItem[]>;
-
-  constructor(private readonly route: ActivatedRoute) {
-    this.items$ = this.route.data.pipe(
-      map((data) => data[GalleryResolver.Key]),
-      map((data) => data.items),
-    );
-  }
+  @Input({ required: true })
+  public items!: IGalleryItem[];
 
   trackByFn(index: number, item: any): any {
     return item.id || index;

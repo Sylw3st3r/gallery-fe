@@ -13,6 +13,7 @@ import {
   CreateGalleryItemPayloadFields,
 } from '../../../models/create-gallery-item-payload.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { GalleryDataService } from '../../../services/gallery-data.service';
 
 type GalleryItemForm = FormGroup<{
   [key in CreateGalleryItemPayloadFields]: key extends 'image'
@@ -40,6 +41,7 @@ export class GalleryItemFormComponent {
     private readonly _galleryItemsRepo: GalleryItemsRepo,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
+    private readonly galleryDataService: GalleryDataService,
   ) {
     const createGalleryItemPayload = new CreateGalleryItemPayload();
     this.galleryItemForm = this.formBuilder.formGroup(
@@ -49,7 +51,12 @@ export class GalleryItemFormComponent {
 
   onSubmit() {
     if (this.galleryItemForm.valid) {
-      this._galleryItemsRepo.create(this.galleryItemForm.getRawValue());
+      this._galleryItemsRepo
+        .create(this.galleryItemForm.getRawValue())
+        .subscribe(() => {
+          this.galleryDataService.retrigger();
+          this.onClose();
+        });
     } else {
       this.galleryItemForm.markAllAsTouched();
     }

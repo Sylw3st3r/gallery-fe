@@ -1,20 +1,15 @@
 <div class="gallery-grid">
-  <ng-container *ngIf="items$ | async as items">
-    <mat-card
-      *ngFor="let item of items; trackBy: trackByFn"
-      class="gallery-card"
-    >
-      <mat-card-header>
-        <mat-card-title>{{ item.name }}</mat-card-title>
-      </mat-card-header>
-      <img
-        mat-card-image
-        [src]="'http://localhost:5062/' + item.image"
-        alt="{{ item.name }}"
-      />
-      <mat-card-content>
-        <p>{{ item.description }}</p>
-      </mat-card-content>
-    </mat-card>
-  </ng-container>
+  <mat-card *ngFor="let item of items; trackBy: trackByFn" class="gallery-card">
+    <mat-card-header>
+      <mat-card-title>{{ item.name }}</mat-card-title>
+    </mat-card-header>
+    <img
+      mat-card-image
+      [src]="'http://localhost:5062/' + item.image"
+      alt="{{ item.name }}"
+    />
+    <mat-card-content>
+      <p>{{ item.description }}</p>
+    </mat-card-content>
+  </mat-card>
 </div>
